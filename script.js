@@ -19,6 +19,7 @@ const recovery = {
         failedAttemptsCounter: 0,
         failedAttemptsStartedDate: [],
         failedAttemptsStayedSoberFor: [],
+        failedAttemptsNotes: [],
     }
 };
 
@@ -139,6 +140,7 @@ function relapsedFeature() {
 
     // UPDATING THE RECOVERY OBJECT
     recovery.failedAttempts.failedAttemptsCounter++;
+    recovery.failedAttempts.failedAttemptsNotes.push(recoveryFormInput.value);
     recovery.failedAttempts.failedAttemptsStartedDate.push(`Started date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`);
     recovery.failedAttempts.failedAttemptsStayedSoberFor.push(`${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  </br>${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} </br>${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} </br>${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`);
 
@@ -197,6 +199,30 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
         // UPDATING THE NAVBAR BUTTON
         startRecoveryButton.textContent = 'RELAPSED?';
     };
+
+
+    if (recoveryLS.failedAttempts.failedAttemptsCounter) {
+        for (let i = 0; i < recoveryLS.failedAttempts.failedAttemptsStartedDate.length; i++) {
+            // UPDATING THE RECOVERY OBJECT
+            recovery.failedAttempts.failedAttemptsCounter = recoveryLS.failedAttempts.failedAttemptsCounter;
+            recovery.failedAttempts.failedAttemptsStartedDate.unshift(recoveryLS.failedAttempts.failedAttemptsStartedDate[i]);
+            recovery.failedAttempts.failedAttemptsStayedSoberFor.unshift(recoveryLS.failedAttempts.failedAttemptsStayedSoberFor[i]);
+            recovery.failedAttempts.failedAttemptsNotes.unshift(recoveryLS.failedAttempts.failedAttemptsNotes[i]);
+
+            failedAttemptsContainer.innerHTML += `
+                <div class="failed-attempt">
+                    <p class="failed-attempt-note"><span>NOTE:</span> ${recovery.failedAttempts.failedAttemptsNotes[i]}</p>
+                    <p class="failed-attempt-started-date">${recovery.failedAttempts.failedAttemptsStartedDate[i]}</p>
+                    <fieldset class="failed-attempt-sober-for">
+                        <legend class="failed-attempt-sober-for-header">Stayed sober for:</legend>
+                        <p class="failed-attempt-sober-for-paragraph">${recovery.failedAttempts.failedAttemptsStayedSoberFor[i]}</p>
+                    </fieldset>
+                </div>
+            `;
+        };
+    };
+
+    console.log(recoveryLS.failedAttempts);
 };
 
 updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage();
