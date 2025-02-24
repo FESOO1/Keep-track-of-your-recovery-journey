@@ -15,6 +15,11 @@ const recovery = {
         minutes: 0,
         seconds: 0,
     },
+    failedAttempts: {
+        failedAttemptsCounter: 0,
+        failedAttemptsStartedDate: [],
+        failedAttemptsStayedSoberFor: [],
+    }
 };
 
 // FORM
@@ -131,6 +136,14 @@ function relapsedFeature() {
             </fieldset>
         </div>
     `;
+
+    // UPDATING THE RECOVERY OBJECT
+    recovery.failedAttempts.failedAttemptsCounter++;
+    recovery.failedAttempts.failedAttemptsStartedDate.push(`Started date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`);
+    recovery.failedAttempts.failedAttemptsStayedSoberFor.push(`${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  </br>${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} </br>${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} </br>${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`);
+
+    // UPDATING THE LOCAL STORAGE
+    localStorage.setItem('recoveryLS', JSON.stringify(recovery));
 };
 
 // INITIALIZE BUTTONS
