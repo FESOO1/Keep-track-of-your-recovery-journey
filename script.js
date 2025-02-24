@@ -220,8 +220,6 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
             `;
         };
     };
-
-    console.log(recovery);
 };
 
 updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage();
