@@ -79,6 +79,24 @@ nav {
     padding: 7px;
     border-radius: 0.5rem;
     border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.recovery-itself::before {
+    content: '';
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -40px;
+    animation: 5s infinite recovery-itself-animation;
+    background-color: rgba(52, 130, 255, 0.992);
+    filter: blur(20px);
+}
+
+@keyframes recovery-itself-animation {
+    to{left: calc(100% + 40px);}
 }
 
 .recovery-itself-start {
@@ -87,6 +105,7 @@ nav {
     padding: 7px;
     border-radius: 0.2rem;
     border: 1px solid rgba(255,255,255,0.1);
+    z-index: 1;
 }
 
 .recovery-itself-has-been {
@@ -97,6 +116,7 @@ nav {
     border-top: 1px solid rgba(255,255,255,0.05);
     border-bottom: 1px solid rgba(255,255,255,0.03);
     line-height: 25px;
+    z-index: 1;
 }
 
 /* FAILED ATTEMPTS */
