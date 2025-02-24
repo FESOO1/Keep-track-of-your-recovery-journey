@@ -210,7 +210,7 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
             recovery.failedAttempts.failedAttemptsNotes.unshift(recoveryLS.failedAttempts.failedAttemptsNotes[i]);
 
             failedAttemptsContainer.innerHTML += `
-                <div class="failed-attempt">
+                <div class="failed-attempt" title="Failed Attempt #${i}">
                     <p class="failed-attempt-note"><span>NOTE:</span> ${recovery.failedAttempts.failedAttemptsNotes[i]}</p>
                     <p class="failed-attempt-started-date">${recovery.failedAttempts.failedAttemptsStartedDate[i]}</p>
                     <fieldset class="failed-attempt-sober-for">
