@@ -41,11 +41,11 @@ function startingANewRecoveryJourney() {
         hours = (Date.now() - startedTime) / 3.6e+6;
         days = (Date.now() - startedTime) / 8.64e+7;
 
-        console.log(hours);
-
         const readySeconds = String(seconds).slice(0, String(seconds).indexOf('.'));
         const readyMinutes = String(minutes).slice(0, String(minutes).indexOf('.'));
-        recoveryIntervalHasBeen.textContent = `It has been: ${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'}, ${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
+        const readyHours = String(hours).slice(0, String(hours).indexOf('.'));
+        const readyDays = String(days).slice(0, String(days).indexOf('.'));
+        recoveryIntervalHasBeen.textContent = `It has been: ${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'},  ${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'},  \n${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'}, ${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
     }, 1);
 };
 
