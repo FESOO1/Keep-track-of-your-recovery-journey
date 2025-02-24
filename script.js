@@ -17,6 +17,11 @@ const recovery = {
     },
 };
 
+// FORM
+const recoveryForm = document.querySelector('.recovery-form');
+const recoveryFormInput = document.querySelector('#recoveryFormInput');
+const saveNoteButton = document.querySelector('#saveNoteButton');
+
 // STARTING A NEW RECOVERY
 
 function startingANewRecoveryJourney() {
@@ -75,14 +80,38 @@ function toggleTheFunctionalitiesOfRecoveryButton() {
         localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     } else {
         startRecoveryButton.textContent = 'START RECOVERY';
+        openRecoveryForm();
+    };
+};
+
+// OPEN RECOVERY FORM
+
+function openRecoveryForm() {
+    recoveryForm.classList.add('recovery-form-active');
+};
+
+// CLOSE RECOVERY FORM
+
+function closeRecoveryForm(e) {
+    e.preventDefault();
+
+    if (recoveryFormInput.value.length > 0) {
+        // CLOSING THE RECOVERY FORM
+        recoveryForm.classList.remove('recovery-form-active');
+
         relapsedFeature();
 
+        // CHANGING THE BOOLEAN
         recovery.isRecoveryStarted = false;
         localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     };
 };
 
+// RELAPSED FEATURE
+
 function relapsedFeature() {
+    recoveryContainer.innerHTML = '';
+
     // STOPPING THE INTERVAL
     clearInterval(recoveryInterval);
 
@@ -94,7 +123,7 @@ function relapsedFeature() {
     // ADDING THE RELAPSED
     failedAttemptsContainer.innerHTML += `
         <div class="failed-attempt">
-            <p class="failed-attempt-note"><span>NOTE:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. A, quae. Impedit neque sed voluptate quos perspiciatis eligendi sequi commodi. Delectus, blanditiis illum? Omnis neque eius eum eos ducimus? Inventore, sunt.</p>
+            <p class="failed-attempt-note"><span>NOTE:</span> ${recoveryFormInput.value}</p>
             <p class="failed-attempt-started-date">Started date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}</p>
             <fieldset class="failed-attempt-sober-for">
                 <legend class="failed-attempt-sober-for-header">Stayed sober for:</legend>
@@ -106,6 +135,7 @@ function relapsedFeature() {
 
 // INITIALIZE BUTTONS
 startRecoveryButton.addEventListener('click', toggleTheFunctionalitiesOfRecoveryButton);
+saveNoteButton.addEventListener('click', closeRecoveryForm);
 
 // UPDATING THE VALUE OF THE NUMBERS USING LOCAL STORAGE
 
