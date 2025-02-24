@@ -45,7 +45,7 @@ function startingANewRecoveryJourney() {
         const readyMinutes = String(minutes).slice(0, String(minutes).indexOf('.'));
         const readyHours = String(hours).slice(0, String(hours).indexOf('.'));
         const readyDays = String(days).slice(0, String(days).indexOf('.'));
-        recoveryIntervalHasBeen.textContent = `It has been: ${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'},  ${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'},  \n${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'}, ${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
+        recoveryIntervalHasBeen.textContent = `${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  \n${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} \n${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} \n${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
     }, 1);
 };
 
