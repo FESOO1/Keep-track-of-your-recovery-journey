@@ -35,7 +35,7 @@ nav {
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255,255,255,0.05);
+    background-color: rgba(255,255,255,0.07);
     display: flex;
     padding: 5px;
     border-radius: 0.2rem;
@@ -47,17 +47,17 @@ nav {
     padding: 5px 10px;
     border-radius: 0.1rem;
     border: 0;
-    background-color: rgb(50,50,50);
+    background-color: rgb(60,60,60);
     color: white;
     cursor: pointer;
 }
 
 .navbar-button:hover {
-    background-color: rgb(60,60,60);
+    background-color: rgb(70,70,70);
 }
 
 .navbar-button:active {
-    background-color: rgb(55,55,55);
+    background-color: rgb(65,65,65);
 }
 
 /* RECOVERY CONTAINER */
