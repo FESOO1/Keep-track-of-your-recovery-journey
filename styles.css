@@ -234,3 +234,12 @@ nav {
 .recovery-form-itself-button:active {
     background-color: rgb(85,85,85);
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 400px) {
+    .recovery-container,
+    .failed-attempts {
+        grid-template-columns: 1fr;
+    }
+}
