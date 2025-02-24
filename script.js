@@ -2,15 +2,23 @@ const startRecoveryButton = document.querySelector('#startRecoveryButton');
 const recoveryContainer = document.querySelector('.recovery-container');
 let isRecoveryStarted = false;
 let recoveryInterval;
-let recoveryStartedDate;
-let recoveryStartedTime;
+let recoveryStartedDateText;
+let recoveryStartedTimeText;
+let startedTime;
+let days;
+let hours;
+let minutes;
+let seconds;
 
 // STARTING A NEW RECOVERY
 
 function startingANewRecoveryJourney() {
+    startedTime = Date.now();
+
+    //
     const currentDate = new Date();
-    recoveryStartedDate = currentDate.toLocaleDateString();
-    recoveryStartedTime = currentDate.toLocaleTimeString();
+    recoveryStartedDateText = currentDate.toLocaleDateString();
+    recoveryStartedTimeText = currentDate.toLocaleTimeString();
     // RECOVERY ITSELF NODE
     const recoveryItself = document.createElement('div');
     const recoveryIntervalStartDate = document.createElement('pre');
@@ -23,41 +31,40 @@ function startingANewRecoveryJourney() {
     recoveryContainer.appendChild(recoveryItself);
 
     // STARTED DATE
-    recoveryIntervalStartDate.textContent = `Start date: ${recoveryStartedDate} - ${recoveryStartedTime}`;
+    recoveryIntervalStartDate.textContent = `Start date: ${recoveryStartedDateText} - ${recoveryStartedTimeText}`;
 
     // INTERVAL
     recoveryInterval = setInterval(() => {
-        // STARTED TIME AND DATE
-        const startedTime = recoveryStartedTime.replace(' ', '').replace('PM', '').replace('AM', '');
-        const startedTimeItself = startedTime.split(':');
-        const startedHour = Number(startedTimeItself[0]);
-        const startedMinute = Number(startedTimeItself[1]);
-        const startedSecond = Number(startedTimeItself[2]);
+        // UPDATING THE SECONDS
+        seconds = (Date.now() - startedTime) / 1000;
+        minutes = (Date.now() - startedTime) / 60000;
+        hours = (Date.now() - startedTime) / 3.6e+6;
+        days = (Date.now() - startedTime) / 8.64e+7;
 
-        const startedDate = recoveryStartedDate.split('/');
-        const startedDay = Number(startedDate[0]);
-        const startedMonth = Number(startedDate[1]);
-        const startedYear = Number(startedDate[2]);
+        console.log(hours);
 
-        // CURRENT TIME AND DATE
-        const currentMomentDate = new Date();
-        const currentTime = currentMomentDate.toLocaleTimeString().replace(' ', '').replace('PM', '').replace('AM', '');
-        const currentTimeItself = currentTime.split(':');
-        const timeHour = Number(currentTimeItself[0]);
-        const timeMinute = Number(currentTimeItself[1]);
-        const timeSecond = Number(currentTimeItself[2]);
-
-        const currentDate = currentMomentDate.toLocaleDateString().split('/');
-        const currentDay = Number(currentDate[0]);
-        const currentMonth = Number(currentDate[1]);
-        const currentYear = Number(currentDate[2]);
-
-        // HAS BEEN CONTAINER
-        recoveryIntervalHasBeen.textContent = `${currentYear - startedYear} ${currentYear - startedYear > 1 ? 'years' : 'year'}, ${currentMonth - startedMonth} ${currentMonth - startedMonth > 1 ? 'months' : 'month'} and ${currentDay - startedDay} ${currentDay - startedDay > 1 ? 'days' : 'day'} \n${timeHour - startedHour} ${timeHour - startedHour > 1 ? 'hours' : 'hour'}, ${timeMinute - startedMinute} ${timeMinute - startedMinute > 1 ? 'minutes' : 'minute'} and ${timeSecond - startedSecond} ${timeSecond - startedSecond > 1 ? 'seconds' : 'second'}`;
+        const readySeconds = String(seconds).slice(0, String(seconds).indexOf('.'));
+        const readyMinutes = String(minutes).slice(0, String(minutes).indexOf('.'));
+        recoveryIntervalHasBeen.textContent = `It has been: ${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'}, ${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
     }, 1);
 };
 
 startingANewRecoveryJourney();
 
+// TOGGLING THE FUNCTIONALITIES OF RECOVERY BUTTON
+
+function toggleTheFunctionalitiesOfRecoveryButton() {
+    if (isRecoveryStarted === false) {
+        startRecoveryButton.textContent = 'RELAPSED?';
+        startingANewRecoveryJourney();
+        
+        isRecoveryStarted = true;
+    } else {
+        startRecoveryButton.textContent = 'START RECOVERY';
+
+        isRecoveryStarted = false;
+    };
+};
+
 // INITIALIZE BUTTONS
-startRecoveryButton.addEventListener('click', startingANewRecoveryJourney);
+startRecoveryButton.addEventListener('click', toggleTheFunctionalitiesOfRecoveryButton);
