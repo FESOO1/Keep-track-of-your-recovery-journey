@@ -1,24 +1,33 @@
 const startRecoveryButton = document.querySelector('#startRecoveryButton');
 const recoveryContainer = document.querySelector('.recovery-container');
-let isRecoveryStarted = false;
+const failedAttemptsContainer = document.querySelector('.failed-attempts');
 let recoveryInterval;
-let recoveryStartedDateText;
-let recoveryStartedTimeText;
-let startedTime;
-let days;
-let hours;
-let minutes;
-let seconds;
+const recovery = {
+    isRecoveryStarted: false,
+    recoveryStarting: {
+        startedTime: 0,
+        recoveryStartedDateText: 0,
+        recoveryStartedTimeText: 0,
+    },
+    recoveryCurrent: {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    },
+};
 
 // STARTING A NEW RECOVERY
 
 function startingANewRecoveryJourney() {
-    startedTime = Date.now();
+    recovery.recoveryStarting.startedTime = Date.now();
 
-    //
+    // STARTED DATE AND TIME
     const currentDate = new Date();
-    recoveryStartedDateText = currentDate.toLocaleDateString();
-    recoveryStartedTimeText = currentDate.toLocaleTimeString();
+    recovery.recoveryStarting.recoveryStartedDateText = currentDate.toLocaleDateString();
+    recovery.recoveryStarting.recoveryStartedTimeText = currentDate.toLocaleTimeString();
+    localStorage.setItem('recoveryLS', JSON.stringify(recovery));
+    
     // RECOVERY ITSELF NODE
     const recoveryItself = document.createElement('div');
     const recoveryIntervalStartDate = document.createElement('pre');
@@ -31,48 +40,68 @@ function startingANewRecoveryJourney() {
     recoveryContainer.appendChild(recoveryItself);
 
     // STARTED DATE
-    recoveryIntervalStartDate.textContent = `Start date: ${recoveryStartedDateText} - ${recoveryStartedTimeText}`;
+    recoveryIntervalStartDate.textContent = `Start date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`;
 
     // INTERVAL
     recoveryInterval = setInterval(() => {
         // UPDATING THE SECONDS
-        seconds = (Date.now() - startedTime) / 1000;
-        minutes = (Date.now() - startedTime) / 60000;
-        hours = (Date.now() - startedTime) / 3.6e+6;
-        days = (Date.now() - startedTime) / 8.64e+7;
+        recovery.recoveryCurrent.seconds = (Date.now() - recovery.recoveryStarting.startedTime) / 1000;
+        recovery.recoveryCurrent.minutes = (Date.now() - recovery.recoveryStarting.startedTime) / 60000;
+        recovery.recoveryCurrent.hours = (Date.now() - recovery.recoveryStarting.startedTime) / 3.6e+6;
+        recovery.recoveryCurrent.days = (Date.now() - recovery.recoveryStarting.startedTime) / 8.64e+7;
 
         // CONVERTING THE NUMBERS INTO STRINGS TO GET THE NEEDED PART USING SLICE METHOD
-        const readySeconds = String(seconds).slice(0, String(seconds).indexOf('.'));
-        const readyMinutes = String(minutes).slice(0, String(minutes).indexOf('.'));
-        const readyHours = String(hours).slice(0, String(hours).indexOf('.'));
-        const readyDays = String(days).slice(0, String(days).indexOf('.'));
+        const readySeconds = String(recovery.recoveryCurrent.seconds).slice(0, String(recovery.recoveryCurrent.seconds).indexOf('.'));
+        const readyMinutes = String(recovery.recoveryCurrent.minutes).slice(0, String(recovery.recoveryCurrent.minutes).indexOf('.'));
+        const readyHours = String(recovery.recoveryCurrent.hours).slice(0, String(recovery.recoveryCurrent.hours).indexOf('.'));
+        const readyDays = String(recovery.recoveryCurrent.days).slice(0, String(recovery.recoveryCurrent.days).indexOf('.'));
 
         // DISPLAYING THE TIME THAT HAS BEEN SINCE THE RECOVERY JOURNEY STARTED
         recoveryIntervalHasBeen.textContent = `${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  \n${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} \n${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} \n${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
 
         // SAVING THE NUMBER IN LOCAL STORAGE
-        localStorage.setItem('secondsLS', seconds);
-        localStorage.setItem('minutesLS', minutes);
-        localStorage.setItem('hoursLS', hours);
-        localStorage.setItem('daysLS', days);
+        localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     }, 1);
 };
-
-startingANewRecoveryJourney();
 
 // TOGGLING THE FUNCTIONALITIES OF RECOVERY BUTTON
 
 function toggleTheFunctionalitiesOfRecoveryButton() {
-    if (isRecoveryStarted === false) {
+    if (recovery.isRecoveryStarted === false) {
         startRecoveryButton.textContent = 'RELAPSED?';
         startingANewRecoveryJourney();
         
-        isRecoveryStarted = true;
+        recovery.isRecoveryStarted = true;
+        localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     } else {
         startRecoveryButton.textContent = 'START RECOVERY';
+        relapsedFeature();
 
-        isRecoveryStarted = false;
+        recovery.isRecoveryStarted = false;
+        localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     };
+};
+
+function relapsedFeature() {
+    // STOPPING THE INTERVAL
+    clearInterval(recoveryInterval);
+
+    const readySeconds = String(recovery.recoveryCurrent.seconds).slice(0, String(recovery.recoveryCurrent.seconds).indexOf('.'));
+    const readyMinutes = String(recovery.recoveryCurrent.minutes).slice(0, String(recovery.recoveryCurrent.minutes).indexOf('.'));
+    const readyHours = String(recovery.recoveryCurrent.hours).slice(0, String(recovery.recoveryCurrent.hours).indexOf('.'));
+    const readyDays = String(recovery.recoveryCurrent.days).slice(0, String(recovery.recoveryCurrent.days).indexOf('.'));
+
+    // ADDING THE RELAPSED
+    failedAttemptsContainer.innerHTML += `
+        <div class="failed-attempt">
+            <p class="failed-attempt-note"><span>NOTE:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. A, quae. Impedit neque sed voluptate quos perspiciatis eligendi sequi commodi. Delectus, blanditiis illum? Omnis neque eius eum eos ducimus? Inventore, sunt.</p>
+            <p class="failed-attempt-started-date">Started date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}</p>
+            <fieldset class="failed-attempt-sober-for">
+                <legend class="failed-attempt-sober-for-header">Stayed sober for:</legend>
+                <p class="failed-attempt-sober-for-paragraph">${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  </br>${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} </br>${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} </br>${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}</p>
+            </fieldset>
+        </div>
+    `;
 };
 
 // INITIALIZE BUTTONS
@@ -80,6 +109,51 @@ startRecoveryButton.addEventListener('click', toggleTheFunctionalitiesOfRecovery
 
 // UPDATING THE VALUE OF THE NUMBERS USING LOCAL STORAGE
 
-function updatingTheValueOfTheNumbersUsingLocalStorage() {
-    
+function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage() {
+    const recoveryLS = JSON.parse(localStorage.getItem('recoveryLS'));
+
+    if (recoveryLS.isRecoveryStarted === true) {
+        // UPDATING THE RECOVERY OBJECT
+        recovery.isRecoveryStarted = true;
+        recovery.recoveryStarting.recoveryStartedDateText = recoveryLS.recoveryStarting.recoveryStartedDateText;
+        recovery.recoveryStarting.recoveryStartedTimeText = recoveryLS.recoveryStarting.recoveryStartedTimeText;
+        recovery.recoveryStarting.startedTime = recoveryLS.recoveryStarting.startedTime;
+
+        // RECOVERY ITSELF NODE
+        const recoveryItself = document.createElement('div');
+        const recoveryIntervalStartDate = document.createElement('pre');
+        const recoveryIntervalHasBeen = document.createElement('pre');
+        recoveryItself.classList.add('recovery-itself');
+        recoveryIntervalStartDate.classList.add('recovery-itself-start');
+        recoveryIntervalHasBeen.classList.add('recovery-itself-has-been');
+        recoveryItself.appendChild(recoveryIntervalStartDate);
+        recoveryItself.appendChild(recoveryIntervalHasBeen);
+        recoveryContainer.appendChild(recoveryItself);
+
+        // STARTED DATE
+        recoveryIntervalStartDate.textContent = `Start date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`;
+
+        // INTERVAL
+        recoveryInterval = setInterval(() => {
+            // UPDATING THE SECONDS
+            recovery.recoveryCurrent.seconds = (Date.now() - recovery.recoveryStarting.startedTime) / 1000;
+            recovery.recoveryCurrent.minutes = (Date.now() - recovery.recoveryStarting.startedTime) / 60000;
+            recovery.recoveryCurrent.hours = (Date.now() - recovery.recoveryStarting.startedTime) / 3.6e+6;
+            recovery.recoveryCurrent.days = (Date.now() - recovery.recoveryStarting.startedTime) / 8.64e+7;
+
+            // CONVERTING THE NUMBERS INTO STRINGS TO GET THE NEEDED PART USING SLICE METHOD
+            const readySeconds = String(recovery.recoveryCurrent.seconds).slice(0, String(recovery.recoveryCurrent.seconds).indexOf('.'));
+            const readyMinutes = String(recovery.recoveryCurrent.minutes).slice(0, String(recovery.recoveryCurrent.minutes).indexOf('.'));
+            const readyHours = String(recovery.recoveryCurrent.hours).slice(0, String(recovery.recoveryCurrent.hours).indexOf('.'));
+            const readyDays = String(recovery.recoveryCurrent.days).slice(0, String(recovery.recoveryCurrent.days).indexOf('.'));
+
+            // DISPLAYING THE TIME THAT HAS BEEN SINCE THE RECOVERY JOURNEY STARTED
+            recoveryIntervalHasBeen.textContent = `${readyDays} ${Number(readyDays) > 1 ? 'days' : 'day'}  \n${readyHours} ${Number(readyHours) > 1 ? 'hours' : 'hour'} \n${readyMinutes} ${Number(readyMinutes) > 1 ? 'minutes' : 'minute'} \n${readySeconds} ${Number(readySeconds) > 1 ? 'seconds' : 'second'}`;
+        }, 1);
+
+        // UPDATING THE NAVBAR BUTTON
+        startRecoveryButton.textContent = 'RELAPSED?';
+    };
 };
+
+updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage();

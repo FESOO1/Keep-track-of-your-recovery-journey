@@ -98,3 +98,67 @@ nav {
     border-bottom: 1px solid rgba(255,255,255,0.03);
     line-height: 25px;
 }
+
+/* FAILED ATTEMPTS */
+
+.failed-attempts {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 15px;
+}
+
+/* FAILED ATTEMPT */
+
+.failed-attempt {
+    background-color: rgb(35,35,35);
+    padding: 7px;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+}
+
+.failed-attempt-note {
+    color: white;
+    font-weight: 300;
+    padding: 10px;
+    background-color: rgba(11, 11, 11, 0.153);
+    border-radius: 0.3rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.failed-attempt-note span {
+    font-weight: 600;
+    color: orangered;
+}
+
+.failed-attempt-started-date {
+    color: white;
+    background-color: rgb(20,20,20);
+    padding: 5px;
+    border-radius: 0.2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.failed-attempt-sober-for {
+    display: flex;
+    padding: 5px;
+    border-radius: 0.2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    background-color: rgb(55,55,55);
+}
+
+.failed-attempt-sober-for-header {
+    color: white;
+    background-color: rgb(80,80,80);
+    border-radius: 0.2rem;
+    padding: 2px 7px;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+
+.failed-attempt-sober-for-paragraph {
+    color: white;
+}
