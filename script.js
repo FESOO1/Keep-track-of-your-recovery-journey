@@ -200,7 +200,6 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
         startRecoveryButton.textContent = 'RELAPSED?';
     };
 
-
     if (recoveryLS.failedAttempts.failedAttemptsCounter) {
         for (let i = 0; i < recoveryLS.failedAttempts.failedAttemptsStartedDate.length; i++) {
             // UPDATING THE RECOVERY OBJECT
@@ -221,8 +220,6 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
             `;
         };
     };
-
-    console.log(recoveryLS.failedAttempts);
 };
 
 updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage();
