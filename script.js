@@ -110,6 +110,11 @@ function closeRecoveryForm(e) {
         // CHANGING THE BOOLEAN
         recovery.isRecoveryStarted = false;
         localStorage.setItem('recoveryLS', JSON.stringify(recovery));
+        // CHANGING THE BORDER STYLE OF INPUT BASED ON THE STATE OF THE INPUT
+        recoveryFormInput.style.border = '1px solid rgba(255,255,255,0.2)';
+    } else {
+        // CHANGING THE BORDER STYLE OF INPUT BASED ON THE STATE OF THE INPUT
+        recoveryFormInput.style.border = '1px solid red';
     };
 };
 
@@ -176,7 +181,7 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
         recoveryContainer.appendChild(recoveryItself);
 
         // STARTED DATE
-        recoveryIntervalStartDate.textContent = `Start date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`;
+        recoveryIntervalStartDate.textContent = `Started date: ${recovery.recoveryStarting.recoveryStartedDateText} - ${recovery.recoveryStarting.recoveryStartedTimeText}`;
 
         // INTERVAL
         recoveryInterval = setInterval(() => {
