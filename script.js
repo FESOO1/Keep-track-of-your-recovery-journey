@@ -79,13 +79,15 @@ function startingANewRecoveryJourney() {
 
 function toggleTheFunctionalitiesOfRecoveryButton() {
     if (recovery.isRecoveryStarted === false) {
-        startRecoveryButton.textContent = 'RELAPSED?';
+        startRecoveryButton.textContent = 'I RELAPSED';
+        startRecoveryButton.setAttribute('title', 'I relapsed');
         startingANewRecoveryJourney();
         
         recovery.isRecoveryStarted = true;
         localStorage.setItem('recoveryLS', JSON.stringify(recovery));
     } else {
         startRecoveryButton.textContent = 'START RECOVERY';
+        startRecoveryButton.setAttribute('title', 'Start Recovery');
         openRecoveryForm();
     };
 };
@@ -112,6 +114,9 @@ function closeRecoveryForm(e) {
         localStorage.setItem('recoveryLS', JSON.stringify(recovery));
         // CHANGING THE BORDER STYLE OF INPUT BASED ON THE STATE OF THE INPUT
         recoveryFormInput.style.border = '1px solid rgba(255,255,255,0.2)';
+
+        // RESETTING THE INPUT VALUE
+        recoveryFormInput.value = '';
     } else {
         // CHANGING THE BORDER STYLE OF INPUT BASED ON THE STATE OF THE INPUT
         recoveryFormInput.style.border = '1px solid red';
@@ -202,17 +207,19 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
         }, 1);
 
         // UPDATING THE NAVBAR BUTTON
-        startRecoveryButton.textContent = 'RELAPSED?';
+        startRecoveryButton.textContent = 'I RELAPSED';
+        startRecoveryButton.setAttribute('title', 'Start Recovery');
     };
 
     if (recoveryLS.failedAttempts.failedAttemptsCounter) {
         for (let i = 0; i < recoveryLS.failedAttempts.failedAttemptsStartedDate.length; i++) {
             // UPDATING THE RECOVERY OBJECT
             recovery.failedAttempts.failedAttemptsCounter = recoveryLS.failedAttempts.failedAttemptsCounter;
-            recovery.failedAttempts.failedAttemptsStartedDate.unshift(recoveryLS.failedAttempts.failedAttemptsStartedDate[i]);
-            recovery.failedAttempts.failedAttemptsStayedSoberFor.unshift(recoveryLS.failedAttempts.failedAttemptsStayedSoberFor[i]);
-            recovery.failedAttempts.failedAttemptsNotes.unshift(recoveryLS.failedAttempts.failedAttemptsNotes[i]);
+            recovery.failedAttempts.failedAttemptsStartedDate.push(recoveryLS.failedAttempts.failedAttemptsStartedDate[i]);
+            recovery.failedAttempts.failedAttemptsStayedSoberFor.push(recoveryLS.failedAttempts.failedAttemptsStayedSoberFor[i]);
+            recovery.failedAttempts.failedAttemptsNotes.push(recoveryLS.failedAttempts.failedAttemptsNotes[i]);
 
+            // CREATING ELEMENTS
             failedAttemptsContainer.innerHTML += `
                 <div class="failed-attempt" title="Failed Attempt #${i}">
                     <p class="failed-attempt-note"><span>NOTE:</span> ${recovery.failedAttempts.failedAttemptsNotes[i]}</p>
