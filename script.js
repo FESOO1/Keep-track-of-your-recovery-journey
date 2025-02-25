@@ -208,7 +208,7 @@ function updatingTheValueOfTheNumbersAndDisplayingTheContainerUsingLocalStorage(
 
         // UPDATING THE NAVBAR BUTTON
         startRecoveryButton.textContent = 'I RELAPSED';
-        startRecoveryButton.setAttribute('title', 'Start Recovery');
+        startRecoveryButton.setAttribute('title', 'I relapsed');
     };
 
     if (recoveryLS.failedAttempts.failedAttemptsCounter) {
