@@ -13,6 +13,7 @@
 
 body {
     background-color: rgb(16,16,16);
+    position: relative;
 }
 
 body::before {
@@ -81,6 +82,11 @@ nav {
     border: 1px solid rgba(255,255,255,0.05);
     position: relative;
     overflow: hidden;
+    animation: 2s infinite recovery-itself-animation-main;
+}
+
+@keyframes recovery-itself-animation-main {
+    50%{border: 1px solid rgba(255,255,255,0.2);}
 }
 
 .recovery-itself::before {
@@ -106,6 +112,11 @@ nav {
     border-radius: 0.2rem;
     border: 1px solid rgba(255,255,255,0.1);
     z-index: 1;
+    animation: 2s infinite recovery-itself-start-animation;
+}
+
+@keyframes recovery-itself-start-animation {
+    50%{border: 1px solid rgba(255,255,255,0.3);}
 }
 
 .recovery-itself-has-been {
@@ -117,12 +128,18 @@ nav {
     border-bottom: 1px solid rgba(255,255,255,0.03);
     line-height: 25px;
     z-index: 1;
+    animation: 2s infinite recovery-itself-has-been-animation;
+}
+
+@keyframes recovery-itself-has-been-animation {
+    50%{ border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.1);}
 }
 
 /* FAILED ATTEMPTS */
 
 .failed-attempts {
     padding: 15px;
+    padding-bottom: 80px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 15px;
